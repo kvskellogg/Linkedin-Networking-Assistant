@@ -1,5 +1,8 @@
 # LinkedIn Networking Assistant
 
+https://youtu.be/RkyirD5Lsjk
+
+
 A Chrome extension that saves LinkedIn profiles to Google Sheets with one click. It also uses AI to tell you why someone could be a valuable connection.
 
 ## What It Does
