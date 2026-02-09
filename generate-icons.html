@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Extension Icons</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    canvas { border: 1px solid #ccc; margin: 10px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; }
+    .download-links { margin-top: 20px; }
+    .download-links a { display: block; margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>LinkedIn Extractor - Icon Generator</h1>
+  <p>Click the button below to generate and download the extension icons.</p>
+
+  <div>
+    <canvas id="icon16" width="16" height="16"></canvas>
+    <canvas id="icon48" width="48" height="48"></canvas>
+    <canvas id="icon128" width="128" height="128"></canvas>
+  </div>
+
+  <button onclick="generateAndDownload()">Generate & Download Icons</button>
+
+  <div class="download-links" id="links"></div>
+
+  <h2>Instructions:</h2>
+  <ol>
+    <li>Click "Generate & Download Icons"</li>
+    <li>Save all 3 PNG files to the <code>icons/</code> folder in your extension directory</li>
+    <li>Reload the extension in Chrome</li>
+  </ol>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+
+      // Background - LinkedIn blue
+      ctx.fillStyle = '#0077b5';
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Letter "L" in white
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.6}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('L', size/2, size/2 + size*0.05);
+
+      // Small sheet icon indicator
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath();
+      ctx.arc(size * 0.75, size * 0.75, size * 0.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function generateAndDownload() {
+      const sizes = [16, 48, 128];
+      const links = document.getElementById('links');
+      links.innerHTML = '<h3>Right-click each link and "Save Link As...":</h3>';
+
+      sizes.forEach(size => {
+        const canvas = document.getElementById('icon' + size);
+        drawIcon(canvas, size);
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = `icon${size}.png`;
+        link.textContent = `Download icon${size}.png`;
+        links.appendChild(link);
+      });
+    }
+
+    // Draw previews on load
+    drawIcon(document.getElementById('icon16'), 16);
+    drawIcon(document.getElementById('icon48'), 48);
+    drawIcon(document.getElementById('icon128'), 128);
+  </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Profile Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>LinkedIn Extractor</h1>
+      <button id="settingsBtn" class="icon-btn" title="Settings">&#9881;</button>
+    </header>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="panel hidden">
+      <h2>Settings</h2>
+      <div class="form-group">
+        <label for="clientId">Google Client ID</label>
+        <input type="text" id="clientId" placeholder="YOUR_CLIENT_ID.apps.googleusercontent.com">
+      </div>
+      <div class="form-group">
+        <label for="sheetId">Google Sheet ID</label>
+        <input type="text" id="sheetId" placeholder="Sheet ID from URL">
+        <small>Find in your sheet URL: docs.google.com/spreadsheets/d/<strong>[SHEET_ID]</strong>/edit</small>
+      </div>
+      <div class="form-group">
+        <label for="sheetName">Sheet Name (Tab)</label>
+        <input type="text" id="sheetName" placeholder="Sheet1" value="Sheet1">
+      </div>
+      <hr class="settings-divider">
+      <h3>AI Networking Analyzer</h3>
+      <div class="form-group">
+        <label for="geminiApiKey">Gemini API Key</label>
+        <input type="password" id="geminiApiKey" placeholder="Your Gemini API key from Google AI Studio">
+        <small>Get one free at <strong>aistudio.google.com/apikey</strong></small>
+      </div>
+      <div class="form-group">
+        <label for="userProfileSummary">My Profile Summary</label>
+        <textarea id="userProfileSummary" placeholder="Describe yourself in 2-3 sentences: your role, goals, skills, and what kind of connections you're looking for..."></textarea>
+        <small>Used to find commonalities with profiles you extract</small>
+      </div>
+
+      <div class="button-group">
+        <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+        <button id="authBtn" class="btn btn-secondary">Authenticate with Google</button>
+      </div>
+      <div id="authStatus" class="status"></div>
+    </div>
+
+    <!-- Main Panel -->
+    <div id="mainPanel" class="panel">
+      <div id="notLinkedIn" class="message hidden">
+        <p>Please navigate to a LinkedIn profile page to extract information.</p>
+      </div>
+
+      <div id="scrollReminder" class="message hidden">
+        <p><strong>Tip:</strong> Scroll to the bottom of the profile before extracting to capture all sections (About, Experience, etc.)</p>
+      </div>
+
+      <div id="profileData" class="hidden">
+        <div class="profile-header">
+          <h2 id="profileName">-</h2>
+        </div>
+
+        <div class="data-grid">
+          <div class="data-item">
+            <label>Headline</label>
+            <span id="profileHeadline">-</span>
+          </div>
+          <div class="data-item">
+            <label>Current Role</label>
+            <span id="currentRole">-</span>
+          </div>
+          <div class="data-item">
+            <label>Company</label>
+            <span id="currentCompany">-</span>
+          </div>
+          <div class="data-item">
+            <label>Location</label>
+            <span id="profileLocation">-</span>
+          </div>
+          <div class="data-item full-width">
+            <label>About</label>
+            <span id="profileAbout" class="about-text">-</span>
+          </div>
+          <div class="data-item full-width">
+            <label>Contact Info</label>
+            <span id="contactInfo" class="about-text">-</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Your Notes</label>
+          <div id="aiIndicator" class="ai-indicator hidden">
+            <span class="ai-spinner"></span> Generating AI summary...
+          </div>
+          <textarea id="notes" placeholder="Add notes about this person..."></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="extractBtn" class="btn btn-secondary">Re-extract</button>
+          <button id="saveBtn" class="btn btn-primary">Save to Sheet</button>
+        </div>
+      </div>
+
+      <!-- Duplicate Warning -->
+      <div id="duplicateWarning" class="warning hidden">
+        <p><strong>This profile is already saved!</strong></p>
+        <p id="duplicateInfo">Saved on: -</p>
+        <div class="button-group">
+          <button id="updateBtn" class="btn btn-warning">Update Existing</button>
+          <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Status Messages -->
+      <div id="status" class="status hidden"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
